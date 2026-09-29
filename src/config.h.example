@@ -1,0 +1,11 @@
+// config.h.example — 开发期 WiFi 凭据模板
+//
+//   cp src/config.h.example src/config.h   然后填入自己的 2.4GHz SSID / 密码
+//
+// `src/config.h` 已在 .gitignore 里；它是 dev 版本（-e sticks3）连接局域网、使用
+// /hrns/* 远程调试harness 所必需的。发布版（-e sticks3-prod）编译期不含这段代码，
+// 也不会把凭据编进固件（发布前用 `strings firmware.bin | grep <ssid>` 自查过）。
+#pragma once
+
+const char* WIFI_SSID = "YOUR_2G4_SSID";
+const char* WIFI_PASS = "YOUR_PASSWORD";

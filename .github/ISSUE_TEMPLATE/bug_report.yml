@@ -1,0 +1,75 @@
+name: Bug report / 故障报告
+description: Something on the screen, in the speaker or in the build is wrong.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. The first three fields below are what makes a report
+        actionable — "it doesn't work" cannot be reproduced.
+        感谢反馈。下面前三项是"能定位"的关键，"不好使"这三个字无法复现。
+
+  - type: input
+    id: version
+    attributes:
+      label: Firmware version / 固件版本
+      description: The version string on the splash screen (e.g. `V0.1.0`). 启动页左下角的版本串。
+      placeholder: V0.1.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: build
+    attributes:
+      label: Which build? / 哪个版本
+      options:
+        - Release build (`pio run -e sticks3-prod`, or the M5Burner merged image)
+        - Development build (`pio run -e sticks3`, WiFi + harness)
+        - I don't know / 不确定
+    validations:
+      required: true
+
+  - type: dropdown
+    id: recovery
+    attributes:
+      label: How does it behave after the problem? / 出问题时设备的状态
+      description: This one field separates a software panic from a hardware-level lockup. 这一个字段能把软件崩溃和硬件级死锁分开。
+      options:
+        - Keeps running, just wrong on screen / 还在跑，只是画面不对
+        - Freezes, a power cycle fixes it / 卡住，断电重启后恢复
+        - Reboots by itself in a loop / 自己反复重启
+        - Black screen, needs a power cycle / 黑屏，必须断电重启
+        - Nothing happens at all, cannot even re-flash / 完全无反应，连刷机都进不去
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect? / 发生了什么，期望是什么
+      description: If it is visual, describe the frame (which snow variant / which sign text / which warp). If it is audible, describe the sound and when it started.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce / 复现步骤
+      placeholder: |
+        1. Flash ...
+        2. Slap it / press B ...
+        3. After ~30 s ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Boot log / 启动日志 (optional)
+      description: |
+        From a development build: `pio device monitor -e sticks3 -b 115200`.
+        Note that the power-save clock uses Light Sleep, which detaches USB CDC — you may
+        have to hold KEY1 and tap RST to get a port back.
+    validations:
+      required: false

@@ -1,0 +1,45 @@
+name: Feature request / 功能建议
+description: A new glitch, a new world channel, a new sound — or something structural.
+title: "[idea] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This project has a strong bias for **small patches to proven code** rather than
+        rewrites, and for behaviour that is verifiable on the device. Screenshot-level
+        descriptions ("what should the frame look like / sound like") get implemented far
+        more often than abstract ones.
+        本项目偏好**在已验证代码上做小改动**而不是重写，也偏好"能在真机上验证"的行为。
+        描述画面/声音的样子（而不是抽象概念）的建议，落地概率高得多。
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea / 想法
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part? / 哪一块
+      options:
+        - Snow / glitch scenes (14 snow × 12 text × 23 warps)
+        - World channels (38 program subjects)
+        - Sound axis (Geiger / alien / Morse / hum)
+        - Sign text & breathing layer
+        - Power save / clock
+        - Time sync (QR page)
+        - Build & tooling
+        - Documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it fits / 为什么契合
+      description: How does it make the "always almost broken TV" illusion stronger? 它如何让"总是差一点就坏"的幻觉更强？
+    validations:
+      required: false

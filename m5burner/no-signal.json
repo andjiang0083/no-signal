@@ -1,0 +1,29 @@
+[
+  {
+    "_id": "no-signal-sticks3",
+    "name": "NO SIGNAL",
+    "description": "A miniature CRT stuck forever on a dead channel: amber phosphor snow that breathes, a permanent NO SIGNAL sign, ~3,800 glitch scenes (14 snow × 12 text × 23 warps), and **slap it** — 50% of the time it locks a fake TV program out of the static, all 38 of them with their own sound (Geiger ticks, alien dial-up, Morse SOS, mechanical hum). After 5 idle minutes it turns into a clock. Two buttons, 6 brightness levels, Light-Sleep power save. | 一台永远停在无信号频道的迷你显像管：会呼吸的琥珀磷光雪花、常驻 NO SIGNAL 招牌、约 3,800 种故障场景（14 雪花 × 12 文字 × 23 扭曲）；拍它一下，50% 概率从雪花里锁定出 38 个伪节目之一，每个都配自己的声音（盖革稀疏/密集、外星数字语、摩尔斯 SOS、机械嗡）；闲置 5 分钟自动变成时钟。双按键、6 档亮度、Light Sleep 省电。",
+    "author": "andjiang",
+    "category": "M5StickS3",
+    "tags": [
+      "tv",
+      "crt",
+      "static",
+      "desk",
+      "clock",
+      "ambient"
+    ],
+    "cover": "cover-320x200.jpg",
+    "github": "https://github.com/andjiang0083/no-signal",
+    "download": 0,
+    "versions": [
+      {
+        "version": "0.1.0",
+        "published_at": "2026-09-29",
+        "file": "no-signal-v0.1.0-merged.bin",
+        "published": true,
+        "change_log": "First public release. Full 18-item code audit: the v0.0.16 sound axis is now actually wired (4 of 5 sound profiles were dead code — programs played only one lock-in arc), 12 missing glyphs added (station IDs read \"C 5\" instead of \"CH 5\"), power-save wake pins corrected to GPIO11/12, the wake key no longer toggles mute/brightness, boot brightness no longer forced to 100%, snow breathing restored, strong tearing was a no-op, time-sync screen A/B skip implemented. Static RAM 81.8% -> 73.0%. Verified on hardware (see docs/VERIFY-v0.1.0.md)."
+      }
+    ]
+  }
+]

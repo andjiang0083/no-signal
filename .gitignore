@@ -1,0 +1,39 @@
+# --- PlatformIO / build output ---
+.pio/
+.pioenvs/
+.piolibdeps/
+build/
+debug/
+*.elf
+*.map
+compile_commands.json
+
+# --- flash images (attach these to Releases, never commit) ---
+*.bin
+*.zip
+dist/
+.release/
+releases/
+
+# --- local dev credentials (cp src/config.h.example src/config.h) ---
+src/config.h
+
+# --- logs ---
+logs/
+*.log
+
+# --- python ---
+__pycache__/
+*.pyc
+
+# --- node / editors / macOS ---
+node_modules/
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.bak
+*.orig
+*.rej
