@@ -18,6 +18,13 @@ wrangling, one `pio run`.
 The first build downloads the ESP32 platform, the Arduino core and M5Unified (a few hundred MB).
 That is normal and only happens once.
 
+**Dependencies are pinned** (`platformio.ini`): M5Unified `0.2.21` and M5GFX `0.2.28`. The v0.1.0
+binaries on the Releases page were built with exactly those two, against Arduino core `3.3.9` /
+ESP-IDF `5.5.4` / the xtensa-esp-elf `14.2.0` toolchain. Leaving the libraries unpinned means a
+clone picks up whatever is newest that day — the first clone of this repository resolved M5Unified
+`0.2.23` / M5GFX `0.2.30` and produced a binary that was 656 bytes different from the published
+one. Bump the pins deliberately, in their own commit.
+
 ## 2. The two environments
 
 | Env | Command | What it is |
