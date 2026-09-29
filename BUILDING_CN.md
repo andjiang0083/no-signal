@@ -19,7 +19,7 @@
 **依赖已钉版**（`platformio.ini`）：M5Unified `0.2.21` + M5GFX `0.2.28`。Releases 页上 v0.1.0 的
 二进制就是用这两个版本、配 Arduino core `3.3.9` / ESP-IDF `5.5.4` / xtensa-esp-elf `14.2.0` 工具链构建的。
 不钉版就意味着克隆当天拉到什么就用什么——本仓库第一次克隆解析到了 M5Unified `0.2.23` / M5GFX `0.2.30`，
-产出的二进制与发布件差了 656 字节。要升级请单独一个 commit 改钉。
+产出的二进制与发布件差了 656 字节、各段尺寸也不同。要升级请单独一个 commit 改钉，并见 §11。
 
 ## 2. 两个编译环境
 
@@ -169,3 +169,30 @@ curl -s http://<设备IP>/hrns/bmp | wc -c     # 必须正好 64854
 4. 生成 merged 镜像、校验布局（§5）、写 `.sha256`。
 5. 至少往真机**用 merged 镜像刷一次**（`esptool write_flash 0x0 …`），并确认 `Hash of data verified`。
 6. 打 tag、发 release、附 `merged.bin` / `.bin` / 两个 `.sha256`；发布说明里写上版本串与 sha256。
+
+## 11. 可复现性 —— "同一个二进制"在这里指什么
+
+用钉住的依赖集（§1）从全新克隆构建，得到的**机器码与发布固件完全相同**。但它不可能产出一个逐字节一致的
+*文件*，在下结论"是不是坏了"之前，值得知道确切原因：
+
+| 段 | 比对结果 | 原因 |
+|---|---|---|
+| `.flash.text` | ✅ 逐字节相同 | 编译出的代码——这一项才是关键 |
+| `.dram0.data` | ✅ 逐字节相同 | 已初始化数据 |
+| `.flash.rodata` | ⚠️ 不同 | assert/日志字符串里的 `__FILE__` 路径，例如把 `/Users/你/…/verify-clone/.pio/libdeps/sticks3-prod/M5GFX@0.2.28/src/lgfx/v1/panel/Panel_AMOLED.cpp` 这类绝对构建路径嵌了进去 |
+| `firmware.bin` 的 sha256 | ⚠️ 必然不同 | 同上，且镜像头里带一个由 ELF 推出的哈希字段、app descriptor 里带构建日期时间 |
+
+所以要**比段，不比文件**：
+
+```bash
+OC=$HOME/.platformio/packages/toolchain-xtensa-esp-elf/bin/xtensa-esp32s3-elf-objcopy
+$OC -O binary --only-section='.flash.text*' -j '.text*' firmware.elf a.bin   # 每棵树各跑一次
+shasum -a 256 a.bin b.bin        # 相同即同一份代码
+```
+
+用这套方法核对 v0.1.0 发布件时还得到两条结论：
+
+- PlatformIO 会在 `.pio/libdeps/<env>/` 里同时留下传递依赖的 `M5GFX` 和钉住的 `M5GFX@0.2.28`；
+  真正参与编译的是钉住的那个——由上面的 `.flash.text` 比对证实，另一个目录只是占地方。
+- 已发布的 v0.1.0 镜像本身是可复现的：用钉版重编 `main` 得到 `.flash.text` = 956112 B、
+  `.dram0.data` = 23648 B，与发布文件逐字节相同。

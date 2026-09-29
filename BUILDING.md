@@ -22,8 +22,8 @@ That is normal and only happens once.
 binaries on the Releases page were built with exactly those two, against Arduino core `3.3.9` /
 ESP-IDF `5.5.4` / the xtensa-esp-elf `14.2.0` toolchain. Leaving the libraries unpinned means a
 clone picks up whatever is newest that day — the first clone of this repository resolved M5Unified
-`0.2.23` / M5GFX `0.2.30` and produced a binary that was 656 bytes different from the published
-one. Bump the pins deliberately, in their own commit.
+`0.2.23` / M5GFX `0.2.30` and produced a binary 656 bytes different from the published one, with
+different section sizes. Bump the pins deliberately, in their own commit, and see §11.
 
 ## 2. The two environments
 
@@ -189,3 +189,32 @@ Two caveats specific to this device:
    confirm `Hash of data verified`.
 6. Tag, publish, attach `merged.bin`, `.bin` and both `.sha256` files; paste the version string and
    the sha256 into the release notes.
+
+## 11. Reproducibility — what "same binary" means here
+
+A fresh clone of this repository, built with the pinned dependency set (§1), produces the **same
+machine code** as the released firmware. It cannot produce a byte-identical *file*, and it is worth
+knowing exactly why before you conclude something is broken:
+
+| Section | Comparison | Why |
+|---|---|---|
+| `.flash.text` | ✅ byte-identical | the compiled code — this is the one that matters |
+| `.dram0.data` | ✅ byte-identical | initialised data |
+| `.flash.rodata` | ⚠️ differs | `__FILE__` paths in assert/log strings. E.g. `/Users/you/…/verify-clone/.pio/libdeps/sticks3-prod/M5GFX@0.2.28/src/lgfx/v1/panel/Panel_AMOLED.cpp` is embedded with your absolute build path |
+| `firmware.bin` sha256 | ⚠️ always differs | same reason, plus the image header carries an ELF-hash field and the app descriptor carries build date/time |
+
+So compare sections, not files:
+
+```bash
+OC=$HOME/.platformio/packages/toolchain-xtensa-esp-elf/bin/xtensa-esp32s3-elf-objcopy
+$OC -O binary --only-section='.flash.text*' -j '.text*' firmware.elf a.bin   # run once per tree
+shasum -a 256 a.bin b.bin        # identical => same code
+```
+
+Two further notes from verifying the v0.1.0 release this way:
+
+- PlatformIO keeps the transitively required `M5GFX` **and** the pinned `M5GFX@0.2.28` in
+  `.pio/libdeps/<env>/`. The pinned one is what gets compiled — verified by the `.flash.text`
+  comparison above; the other directory is unused storage.
+- The published v0.1.0 images themselves are reproducible: rebuilding `main` at the pin gave
+  `.flash.text` = 956112 B, `.dram0.data` = 23648 B, both byte-identical to the released files.
