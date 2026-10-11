@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 andjiang0083
 // config.h.example — 开发期 WiFi 凭据模板
 //
 //   cp src/config.h.example src/config.h   然后填入自己的 2.4GHz SSID / 密码

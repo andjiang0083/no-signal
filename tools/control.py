@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 andjiang0083
 """
 Harness Control — remote ESP32 test harness PC tool
 

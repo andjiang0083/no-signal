@@ -1,3 +1,6 @@
+/* SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 andjiang0083
+ */
 // ============================================================
 //  no-signal v0.1.0 — 桌搭静电电视 (M5StickS3)
 //  一台永远停在无信号频道的迷你显像管。

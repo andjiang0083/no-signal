@@ -1,3 +1,6 @@
+/* SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 andjiang0083
+ */
 // ────────────────────────────────────────────────────────
 // timesync.h — no-signal 扫码对时模块
 // AP(WIFI:T:nopass 格式 QR) + Captive Portal + BM8563 RTC

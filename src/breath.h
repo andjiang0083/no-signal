@@ -1,3 +1,6 @@
+/* SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 andjiang0083
+ */
 // ============================================================
 //  breath.h — 呼吸层 (no-signal v0.0.14)
 //  层级：事件层(GlitchState/拍打/节目) 之下，内容层(雪花+灯牌) 之上。

@@ -1,3 +1,6 @@
+/* SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 andjiang0083
+ */
 // ============================================================
 //  prog_sound.h — 声学轴 (no-signal v0.0.16)
 //  节目专属声音：盖革计数器为核心的事件音系统。
